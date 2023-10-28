@@ -96,11 +96,70 @@ const HACKEREARTH_DATASET = {
     }
 }
 
+
+const MOVIES_DATASET = {
+    data: {
+        'Genre': ['Action', 'Comedy', 'Drama', 'Science Fiction', 'Thriller', 'Animation', 'Romance', 'Horror', 'Mystery', 'Fantasy'],
+        'Budget_Million': [150, 80, 50, 120, 70, 90, 40, 30, 60, 110],
+        'Average_Rating': [7, 5, 2, 9, 3, 6, 6, 4, 7, 10]
+    },
+    target: {
+        'Success':  ['Yes', 'No', 'Yes', 'Yes', 'No', 'Yes', 'No', 'No', 'Yes', 'Yes']
+    },
+    datatypes: {
+        'Genre': DATATYPE_CATEGORICAL,
+        'Budget_Million': DATATYPE_CONTINUOUS,
+        'Average_Rating': DATATYPE_CONTINUOUS
+    }
+}
+
+const PRODUCT_BESTBUYED_DATASET = {
+    data: {
+        'Product': ['Laptop', 'Smartphone', 'Tablet', 'Camera', 'Headphones', 'Printer', 'Router', 'Monitor', 'External_Hard_Drive', 'Smart_Watch'],
+        'Price': [1200, 800, 400, 600, 150, 250, 80, 300, 200, 180],
+        'Brand': ['Apple', 'Samsung', 'Microsoft', 'Sony', 'Bose', 'HP', 'Linksys', 'Dell', 'Seagate', 'Fitbit'],
+        'Sales_Quantity': [500, 1200, 800, 300, 450, 150, 200, 350, 100, 300]
+    },
+    target: {
+        'Bestseller': ['No', 'Yes', 'Yes', 'Yes', 'No', 'No', 'No', 'No', 'Yes', 'No']
+    },
+    datatypes: {
+        'Product': DATATYPE_CATEGORICAL,
+        'Price': DATATYPE_CONTINUOUS,
+        'Brand': DATATYPE_CATEGORICAL,
+        'Sales_Quantity': DATATYPE_CONTINUOUS
+    }
+}
+
+const MULTISPORT_CHAMPIONSHIP_DATASET = {
+    data: {
+        'Sport': ['Football', 'Basketball', 'Tennis', 'Golf', 'Swimming', 'Cycling', 'Baseball', 'Cricket', 'Volleyball', 'Ping Pong'],
+        'Players': [22, 10, 2, 4, 8, 6, 18, 22, 12, 12],
+        'Average_Age': [26, 27, 29, 34, 25, 30, 28, 25, 29, 31]
+    
+    },
+    target: {
+        'Popular_Sport':  ['Yes', 'Yes', 'No', 'No', 'No', 'Yes', 'No', 'No', 'Yes', 'Yes']
+    },
+    datatypes: {
+        'Sport': DATATYPE_CATEGORICAL,
+        'Players': DATATYPE_CONTINUOUS,
+        'Average_Age': DATATYPE_CONTINUOUS
+    }
+}
+
+
+
+
+
 const datasets = {
     'XOR': XOR_DATASET,
     'Borrowers': BORROWERS_DATASET,
     'Animals': ANIMALS_DATASET,
-    'HackerEarth': HACKEREARTH_DATASET
+    'HackerEarth': HACKEREARTH_DATASET,
+    'Movies': MOVIES_DATASET,
+    'Products (Best Sellers)': PRODUCT_BESTBUYED_DATASET,
+    'Multisports Championship': MULTISPORT_CHAMPIONSHIP_DATASET
 };
 
 /**
@@ -717,6 +776,7 @@ class ClassificationTree extends React.Component {
         });
 
         return (
+            
             <table id='datasetTable' className='table table-dark'>
                 <thead>
                     <tr key="0">
@@ -740,6 +800,7 @@ class ClassificationTree extends React.Component {
                     }
                 </tbody>
             </table>
+            
         )
     }
 
@@ -762,14 +823,15 @@ class ClassificationTree extends React.Component {
 
         return (
             <div>
-                <div className='bg-dark p-3 text-white'>
-                    <h1>Classification Trees</h1>
+                <div id='divbg'>
+                    <h1 id='divtitle'>Classification Trees</h1>
                 </div>
                 <div className='container'>
                     <div className='row'>
                         <form className='row'>
                             <div className='col'>
                                 <label className='form-label'>Choose a dataset:</label>
+                                
                                 <select className='form-control' onChange={ event => this.handleDatasetChange(event) }>
                                     {
                                         Object.keys(datasets).map((dataset, i) => (
@@ -790,25 +852,7 @@ class ClassificationTree extends React.Component {
                             </div>
                         </form>
                     </div>
-                    <div className='p-1'>
-                        <p>Navigate through generation steps:</p>
-                        <div className='px-3'>
-                            <div className='row'>
-                                <div className='col'>
-                                    <button type='button' className='btn btn-danger w-100' onClick={ event => this.firstStep(event) } title="First step" disabled={ this.historyCount === 0 }>|&lt;</button>
-                                </div>
-                                <div className='col'>
-                                <button type='button' className='btn btn-danger w-100' onClick={ event => this.stepBefore(event) } title="Previous step" disabled={ this.historyCount === 0 }>&lt;</button>
-                                </div>
-                                <div className='col'>
-                                    <button type='button' className='btn btn-danger w-100' onClick={ event => this.stepAfter(event) } title="Next step" disabled={ this.historyCount === this.history.length - 1 }>&gt;</button>
-                                </div>
-                                <div className='col'>
-                                <button type='button' className='btn btn-danger w-100' onClick={ event => this.lastStep(event) } title="Last step" disabled={ this.historyCount === this.history.length - 1 }>&gt;|</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    
                     <div className='row'>
                         
                             <div className='col' style={{ textAlign: "center" }}>
@@ -821,8 +865,27 @@ class ClassificationTree extends React.Component {
                                     Move your cursor to one of the nodes to see its properties.
                                 </p>
                                 <DecisionTreeNode key={ this.datasetname } treeData={ treeData } />
+                                <div className='p-1'>
+                                    <p>Navigate through generation steps:</p>
+                                    <div className='row'>
+                                            <div className='col'>
+                                                <button type='button' className='btn btn-danger w-100' onClick={ event => this.firstStep(event) } title="First step" disabled={ this.historyCount === 0 }>|&lt;</button>
+                                            </div>
+                                            <div className='col'>
+                                            <button type='button' className='btn btn-danger w-100' onClick={ event => this.stepBefore(event) } title="Previous step" disabled={ this.historyCount === 0 }>&lt;</button>
+                                            </div>
+                                            <div className='col'>
+                                                <button type='button' className='btn btn-danger w-100' onClick={ event => this.stepAfter(event) } title="Next step" disabled={ this.historyCount === this.history.length - 1 }>&gt;</button>
+                                            </div>
+                                            <div className='col'>
+                                            <button type='button' className='btn btn-danger w-100' onClick={ event => this.lastStep(event) } title="Last step" disabled={ this.historyCount === this.history.length - 1 }>&gt;|</button>
+                                            </div>
+                                        </div>
                             </div>
+                        </div>
                     </div>
+
+                    
                 </div>
             </div>
         );
